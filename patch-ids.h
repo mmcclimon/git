@@ -19,7 +19,7 @@ struct patch_ids {
 	struct diff_options diffopts;
 };
 
-int commit_patch_id(struct commit *commit, struct diff_options *options,
+int commit_patch_id(const struct commit *commit, struct diff_options *options,
 		    struct object_id *oid, int);
 int init_patch_ids(struct repository *, struct patch_ids *);
 int free_patch_ids(struct patch_ids *);

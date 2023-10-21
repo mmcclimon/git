@@ -6,13 +6,13 @@
 #include "hex.h"
 #include "patch-ids.h"
 
-static int patch_id_defined(struct commit *commit)
+static int patch_id_defined(const struct commit *commit)
 {
 	/* must be 0 or 1 parents */
 	return !commit->parents || !commit->parents->next;
 }
 
-int commit_patch_id(struct commit *commit, struct diff_options *options,
+int commit_patch_id(const struct commit *commit, struct diff_options *options,
 		    struct object_id *oid, int diff_header_only)
 {
 	if (!patch_id_defined(commit))

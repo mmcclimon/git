@@ -19,6 +19,7 @@
 #include "trailer.h"
 #include "run-command.h"
 #include "object-name.h"
+#include "patch-ids.h"
 
 /*
  * The limit for formatting directives, which enable the caller to append
@@ -1571,6 +1572,16 @@ static size_t format_commit_one(struct strbuf *sb, /* in UTF-8 */
 						 c->pretty_ctx->abbrev);
 		}
 		return 1;
+	case 'I':
+		{
+			struct diff_options diffopt;
+			struct object_id patch_id;
+			repo_diff_setup(the_repository, &diffopt);
+			if (commit_patch_id(commit, &diffopt, &patch_id, 0))
+				die(_("cannot get patch id"));
+			strbuf_addstr(sb, oid_to_hex(&patch_id));
+			return 1;
+		}
 	case 'm':		/* left/right/bottom */
 		strbuf_addstr(sb, get_revision_mark(NULL, commit));
 		return 1;

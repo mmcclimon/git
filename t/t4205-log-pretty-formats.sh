@@ -38,6 +38,16 @@ test_expect_success 'set up basic repos' '
 	git config --unset i18n.commitEncoding
 '
 
+# %I placeholder
+test_expect_success '%I placeholder is a patch-id' '
+	git diff-tree --patch-with-raw HEAD | git patch-id >expected &&
+	git log --pretty="%I %H" -n 1 >actual &&
+	test_cmp expected actual
+'
+test_done
+exit 0
+
+
 test_expect_success 'alias builtin format' '
 	git log --pretty=oneline >expected &&
 	git config pretty.test-alias oneline &&
